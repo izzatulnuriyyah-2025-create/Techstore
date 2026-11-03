@@ -2,9 +2,7 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT idvendor, nama_vendor, badan_hukum, status
-          FROM vendor";
-
+$query = "SELECT * FROM view_master_vendor";
 $result = mysqli_query($conn, $query);
 ?>
 

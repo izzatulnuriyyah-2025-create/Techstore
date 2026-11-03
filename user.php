@@ -1,10 +1,7 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT u.iduser, u.username, r.nama_role
-          FROM `user` u
-          JOIN role r ON u.idrole = r.idrole";
-
+$query = "SELECT * FROM view_master_user";
 $result = mysqli_query($conn, $query);
 ?>
 
