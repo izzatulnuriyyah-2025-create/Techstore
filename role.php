@@ -1,8 +1,7 @@
 <?php
 include 'config/database.php';
 
-
-$query = "SELECT * FROM view_master_role";
+$query = "SELECT idrole, nama_role FROM role";
 $result = mysqli_query($conn, $query);
 ?>
 

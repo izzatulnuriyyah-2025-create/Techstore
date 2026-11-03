@@ -2,7 +2,11 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT * FROM view_master_barang";
+$query = "SELECT b.idbarang, b.jenis, b.nama, s.nama_satuan,
+                 b.status, b.harga
+          FROM barang b
+          LEFT JOIN satuan s ON b.idsatuan = s.idsatuan";
+
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -59,9 +63,9 @@ $result = mysqli_query($conn, $query);
                         <td><?= $no++; ?></td>
                         <td><?= htmlspecialchars($row['idbarang']); ?></td>
                         <td><?= htmlspecialchars($row['jenis']); ?></td>
-                        <td><?= htmlspecialchars($row['nama_barang']); ?></td>
+                        <td><?= htmlspecialchars($row['nama']); ?></td>
                         <td><?= htmlspecialchars($row['nama_satuan'] ?? '-'); ?></td>
-                        <td><?= htmlspecialchars($row['status']) ?></td>
+                        <td><?= $row['status'] == 1 ? 'Aktif' : 'Tidak Aktif'; ?></td>
                         <td>Rp <?= number_format((float)$row['harga'], 0, ',', '.'); ?></td>
                     </tr>
                     <?php
