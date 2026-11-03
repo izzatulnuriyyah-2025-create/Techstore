@@ -1,10 +1,8 @@
-
 <?php
 include 'config/database.php';
 
-$query = "SELECT idmargin_penjualan, created_at, persen, status, iduser
-          FROM margin_penjualan";
 
+$query = "SELECT * FROM view_master_margin";
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -62,7 +60,7 @@ $result = mysqli_query($conn, $query);
                         <td><?= htmlspecialchars($row['idmargin_penjualan']); ?></td>
                         <td><?= htmlspecialchars($row['persen']); ?>%</td>
                         <td>
-                            <?= $row['status'] == 1 ? 'Aktif' : 'Tidak Aktif'; ?>
+                            <?= htmlspecialchars($row['status']) ?>
                         </td>
                         <td><?= htmlspecialchars($row['iduser']); ?></td>
                         <td><?= htmlspecialchars($row['created_at']); ?></td>
@@ -80,4 +78,4 @@ $result = mysqli_query($conn, $query);
         </div>
     </div>
 </body>
-</html>
+</html

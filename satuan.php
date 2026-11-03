@@ -2,7 +2,8 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT idsatuan, nama_satuan, status FROM satuan";
+
+$query = "SELECT * FROM view_master_satuan";
 $result = mysqli_query($conn, $query);
 ?>
 
