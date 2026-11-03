@@ -2,7 +2,16 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT * FROM view_penjualan";
+$query = "SELECT 
+    idpenjualan,
+    created_at,
+    subtotal_nilai,
+    ppn,
+    fn_total_nilai(subtotal_nilai, ppn) AS total_nilai,
+    iduser,
+    idmargin_penjualan
+    FROM view_penjualan";
+
 $result = mysqli_query($conn, $query);
 ?>
 

@@ -2,6 +2,44 @@
 <?php
 include 'config/database.php';
 
+$pesan = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $iddetail_pengadaan = (int) $_POST['iddetail_pengadaan'];
+    $harga_satuan = (float) $_POST['harga_satuan'];
+    $jumlah = (int) $_POST['jumlah'];
+    $idbarang = (int) $_POST['idbarang'];
+    $idpengadaan = (int) $_POST['idpengadaan'];
+
+    $query_insert = "INSERT INTO detail_pengadaan
+        (iddetail_pengadaan, harga_satuan, jumlah, sub_total, idbarang, idpengadaan)
+        VALUES (?, ?, ?, 0, ?, ?)";
+
+    $stmt = mysqli_prepare($conn, $query_insert);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param(
+            $stmt,
+            "idiii",
+            $iddetail_pengadaan,
+            $harga_satuan,
+            $jumlah,
+            $idbarang,
+            $idpengadaan
+        );
+
+        if (mysqli_stmt_execute($stmt)) {
+            $pesan = "Detail pengadaan berhasil ditambahkan!";
+        } else {
+            $pesan = "Gagal menambahkan data: " . mysqli_stmt_error($stmt);
+        }
+
+        mysqli_stmt_close($stmt);
+    } else {
+        $pesan = "Gagal menyiapkan query: " . mysqli_error($conn);
+    }
+}
+
 $query = "SELECT * FROM view_detail_pengadaan";
 $result = mysqli_query($conn, $query);
 ?>
@@ -46,6 +84,33 @@ $result = mysqli_query($conn, $query);
     <h1>Detail Pengadaan</h1>
 
     <div class="card">
+        <h2>Tambah Detail Pengadaan</h2>
+
+        <?php if ($pesan != '') { ?>
+            <p><?= htmlspecialchars($pesan) ?></p>
+        <?php } ?>
+
+        <form method="POST">
+            <label>ID Detail Pengadaan</label>
+            <input type="number" name="iddetail_pengadaan" required>
+
+            <label>Harga Satuan</label>
+            <input type="number" name="harga_satuan" min="0" required>
+
+            <label>Jumlah</label>
+            <input type="number" name="jumlah" min="1" required>
+
+            <label>ID Barang</label>
+            <input type="number" name="idbarang" min="1" required>
+
+            <label>ID Pengadaan</label>
+            <input type="number" name="idpengadaan" min="1" required>
+
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+    <div class="card">
         <h2>Daftar Detail Pengadaan</h2>
 
         <div style="overflow-x:auto;">
@@ -76,11 +141,9 @@ $result = mysqli_query($conn, $query);
                         <td><?= htmlspecialchars((string)$row['idbarang']) ?></td>
                         <td><?= htmlspecialchars((string)$row['idpengadaan']) ?></td>
                     </tr>
-                <?php
-                }
+                <?php } ?>
 
-                if (mysqli_num_rows($result) == 0) {
-                ?>
+                <?php if (mysqli_num_rows($result) == 0) { ?>
                     <tr>
                         <td colspan="7">Belum ada detail pengadaan.</td>
                     </tr>

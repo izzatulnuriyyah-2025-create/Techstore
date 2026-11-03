@@ -2,7 +2,7 @@
 <?php
 include 'config/database.php';
 
-$query = "SELECT * FROM view_pengadaan";
+$query = "CALL sp_tampil_pengadaan()";
 $result = mysqli_query($conn, $query);
 ?>
 
